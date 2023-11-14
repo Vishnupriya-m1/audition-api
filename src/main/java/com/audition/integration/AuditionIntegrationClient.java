@@ -23,7 +23,6 @@ public class AuditionIntegrationClient {
     private RestTemplate restTemplate;
 
     private static final String BASE_URL_AUDITION_POSTS = "https://jsonplaceholder.typicode.com/posts";
-    private static final String BASE_URL_COMMENTS_FOR_AUDITION_POSTS = "https://jsonplaceholder.typicode.com/comments";
 
     public List<AuditionPost> getPosts(final @Nullable String userId) {
         ResponseEntity<AuditionPost[]> response;
