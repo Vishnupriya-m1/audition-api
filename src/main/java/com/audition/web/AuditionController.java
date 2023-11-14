@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,7 +48,7 @@ public class AuditionController {
 
     @GetMapping(value = "/comments", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<AuditionPostComment> getComments(
-        @Valid @RequestParam @IntegerConstraint final String postId) {
+        @Valid @IntegerConstraint final String postId) {
         log.info("Request for comments [postId = {}] ", postId);
         return auditionService.getComments(postId);
     }

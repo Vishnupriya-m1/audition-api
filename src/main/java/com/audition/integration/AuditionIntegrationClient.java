@@ -62,9 +62,9 @@ public class AuditionIntegrationClient {
     }
 
     public List<AuditionPostComment> getCommentsByPostId(final String postId) {
-        ResponseEntity<AuditionPostComment[]> response = restTemplate.getForEntity(BASE_URL_COMMENTS_FOR_AUDITION_POSTS,
-            AuditionPostComment[].class,
-            Map.of("postId", postId));
+        ResponseEntity<AuditionPostComment[]> response = restTemplate.getForEntity(
+            BASE_URL_AUDITION_POSTS + "/" + postId + "/comments",
+            AuditionPostComment[].class);
         AuditionPostComment[] comments = response.getBody();
         return ObjectUtils.isEmpty(comments) ? Collections.emptyList() : Arrays.asList(comments);
 
