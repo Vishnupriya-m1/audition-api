@@ -6,7 +6,6 @@ import com.audition.model.AuditionPostComment;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
@@ -32,9 +31,8 @@ public class AuditionIntegrationClient {
             response = restTemplate.getForEntity(BASE_URL_AUDITION_POSTS,
                 AuditionPost[].class);
         } else {
-            response = restTemplate.getForEntity(BASE_URL_AUDITION_POSTS,
-                AuditionPost[].class,
-                Map.of("userId", userId));
+            response = restTemplate.getForEntity(BASE_URL_AUDITION_POSTS + "?userId={userId}",
+                AuditionPost[].class, userId);
         }
         AuditionPost[] posts = response.getBody();
         return ObjectUtils.isEmpty(posts) ? Collections.emptyList() : Arrays.asList(posts);
