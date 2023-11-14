@@ -18,7 +18,7 @@ public @interface IntegerConstraint {
 
     boolean mandatory() default true;
 
-    Class<?>[] group() default {};
+    Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 

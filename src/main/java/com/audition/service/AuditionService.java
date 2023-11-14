@@ -6,7 +6,6 @@ import com.audition.model.AuditionPostComment;
 import com.audition.model.AuditionPostRequest;
 import com.google.common.base.Strings;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +20,9 @@ public class AuditionService {
         List<AuditionPost> posts = auditionIntegrationClient.getPosts(request.getUserId());
         return posts.stream().filter(
                 p -> Strings.isNullOrEmpty(request.getTitleContains()) || p.getTitle().contains(request.getTitleContains()))
-            .filter(p -> Strings.isNullOrEmpty(request.getBodyContains()) || p.getTitle()
+            .filter(p -> Strings.isNullOrEmpty(request.getBodyContains()) || p.getBody()
                 .contains(request.getBodyContains()))
-            .collect(
-                Collectors.toList());
+            .toList();
     }
 
     public AuditionPost getPostById(final String postId) {
@@ -32,7 +30,7 @@ public class AuditionService {
     }
 
     public AuditionPost getPostAndComments(final String postId) {
-        return auditionIntegrationClient.getPostById(postId);
+        return auditionIntegrationClient.getPostAndComments(postId);
     }
 
     public List<AuditionPostComment> getComments(final String postId) {

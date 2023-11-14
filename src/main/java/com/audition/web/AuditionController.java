@@ -27,18 +27,16 @@ public class AuditionController {
 
     private AuditionService auditionService;
 
-    // TODO Add a query param that allows data filtering. The intent of the filter is at developers discretion.
     @GetMapping(value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<AuditionPost> getPosts(@Valid @RequestParam AuditionPostRequest request) {
+    public @ResponseBody List<AuditionPost> getPosts(
+        @Valid AuditionPostRequest request) {
         log.info("Request for posts [request = {}] ", request);
-        // TODO Add logic that filters response data based on the query param
         return auditionService.getPosts(request);
     }
 
     @GetMapping(value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody AuditionPost getPostById(@Valid @PathVariable("id") @IntegerConstraint final String postId) {
         log.info("Request for post by id [postId = {}] ", postId);
-        // TODO Add input validation
         return auditionService.getPostById(postId);
     }
 
@@ -46,7 +44,6 @@ public class AuditionController {
     public @ResponseBody AuditionPost getPostAndComments(
         @Valid @PathVariable("id") @IntegerConstraint final String postId) {
         log.info("Request for post and related comments [postId = {}] ", postId);
-        // TODO Add input validation
         return auditionService.getPostAndComments(postId);
     }
 
@@ -54,7 +51,6 @@ public class AuditionController {
     public @ResponseBody List<AuditionPostComment> getComments(
         @Valid @RequestParam @IntegerConstraint final String postId) {
         log.info("Request for comments [postId = {}] ", postId);
-        // TODO Add input validation
         return auditionService.getComments(postId);
     }
 }

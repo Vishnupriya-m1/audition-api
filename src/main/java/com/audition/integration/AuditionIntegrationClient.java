@@ -36,42 +36,30 @@ public class AuditionIntegrationClient {
                 AuditionPost[].class,
                 Map.of("userId", userId));
         }
-        // TODO make RestTemplate call to get Posts from https://jsonplaceholder.typicode.com/posts
         AuditionPost[] posts = response.getBody();
         return ObjectUtils.isEmpty(posts) ? Collections.emptyList() : Arrays.asList(posts);
     }
 
     public AuditionPost getPostById(final String id) {
-        // TODO get post by post ID call from https://jsonplaceholder.typicode.com/posts/
         try {
-            return new AuditionPost();
+            ResponseEntity<AuditionPost> response = restTemplate.getForEntity(BASE_URL_AUDITION_POSTS + "/" + id,
+                AuditionPost.class);
+            return response.getBody();
         } catch (final HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
                 throw new SystemException("Cannot find a Post with id " + id, "Resource Not Found",
                     404);
             } else {
-                // TODO Find a better way to handle the exception so that the original error message is not lost. Feel free to change this function.
-                throw new SystemException("Unknown Error message");
+                throw new SystemException("Unknown Error message", e.getStatusCode().value());
             }
         }
     }
 
-    public AuditionPost mygetPostById(final String id) {
-        ResponseEntity<AuditionPost> response = restTemplate.getForEntity(BASE_URL_AUDITION_POSTS + "/" + id,
-            AuditionPost.class);
-        return response.getBody();
-    }
-
     public AuditionPost getPostAndComments(final String id) {
-        AuditionPost post = mygetPostById(id);
+        AuditionPost post = getPostById(id);
         post.setComments(getCommentsByPostId(id));
         return post;
     }
-
-    // TODO Write a method GET comments for a post from https://jsonplaceholder.typicode.com/posts/{postId}/comments - the comments must be returned as part of the post.
-
-    // TODO write a method. GET comments for a particular Post from https://jsonplaceholder.typicode.com/comments?postId={postId}.
-    // The comments are a separate list that needs to be returned to the API consumers. Hint: this is not part of the AuditionPost pojo.
 
     public List<AuditionPostComment> getCommentsByPostId(final String postId) {
         ResponseEntity<AuditionPostComment[]> response = restTemplate.getForEntity(BASE_URL_COMMENTS_FOR_AUDITION_POSTS,
